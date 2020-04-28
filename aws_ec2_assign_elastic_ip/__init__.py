@@ -132,6 +132,14 @@ def _get_unassociated_address():
                 address['PublicIp'], address['NetworkInterfaceId']))
             continue
 
+        # Check if the address has the correct tag
+        if not _has_correct_tag(address):
+            logger.debug(
+                '{0} is unassociated, but does not have correct tag'.format(
+                    address['PublicIp']))
+            continue
+
+
         # Check if the address is in the valid IP's list
         if _is_valid(address['PublicIp']):
             logger.debug('{0} is unassociated and OK for us to take'.format(
@@ -159,6 +167,29 @@ def _has_associated_address(instance_id):
     """
     if connection.describe_addresses(Filters=[{'Name': 'instance-id', 'Values': [ec2_metadata.instance_id]}])['Addresses']:
         return True
+    return False
+
+
+def _has_correct_tag(address):
+    """ Check if the EIP has given tag
+
+    :type address: str
+    :param address: IP address to check
+    :returns: bool -- True if IP address has tag
+    """
+    if not args.tag:
+        return True
+    
+    (tag_key, tag_value) = args.tag.split('=')
+
+    try:
+        for address_tag in address['Tags']:
+            if address_tag['Key'] == tag_key and address_tag['Value'] == tag_value:
+                return True
+    except KeyError as error:
+        logger.debug('IP: {0} has no tags assigned'.format(address['PublicIp']))
+        return False
+    
     return False
 
 def _is_ip_in_range(address, ips):

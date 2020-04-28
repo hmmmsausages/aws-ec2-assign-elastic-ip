@@ -32,9 +32,11 @@ credential config options](http://boto.readthedocs.org/en/latest/boto_config_tut
 and AWS instance profiles.
 
     usage: aws-ec2-assign-elastic-ip [-h] [--version] [--region REGION]
-                                     [--access-key ACCESS_KEY]
-                                     [--secret-key SECRET_KEY] [--dry-run]
-                                     [--valid-ips VALID_IPS]
+                                 [--access-key ACCESS_KEY]
+                                 [--secret-key SECRET_KEY] [--dry-run]
+                                 [--valid-ips VALID_IPS]
+                                 [--invalid-ips INVALID_IPS]
+                                 [--tag [KEY=VALUE]]
 
     Assign EC2 Elastic IP to the current instance
 
@@ -63,7 +65,10 @@ and AWS instance profiles.
                             - 58.0.0.0/8
                             - 123.213.0.0/16,58.0.0.0/8,195.234.023.0
                             - 195.234.234.23,195.234.234.24
-
+      --tag [KEY=VALUE]     A case-sensitive tag (key=value pair) that valid Elastic IPs should have
+                            Valid examples:
+                            - Name=my-eip
+                            - Group=prod
 
 The `--valid-ips` and `--invalid-ips` options require the public IPs in a comma separated sequence.
 E.g. `56.123.56.123,56.123.56.124,56.123.56.125`.

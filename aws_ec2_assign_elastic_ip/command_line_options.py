@@ -56,6 +56,15 @@ PARSER.add_argument(
         '- 58.0.0.0/8\n'
         '- 123.213.0.0/16,58.0.0.0/8,195.234.023.0\n'
         '- 195.234.234.23,195.234.234.24\n'))
+PARSER.add_argument(
+    '--tag',
+    metavar="KEY=VALUE",
+    nargs='?',
+    help=(
+        'A case-sensitive tag (key=value pair) that valid Elastic IPs should have\n'
+        'Valid examples:\n'
+        '- Name=my-eip\n'
+        '- Group=prod\n'))
 ARGS = PARSER.parse_args()
 
 if ARGS.version:
